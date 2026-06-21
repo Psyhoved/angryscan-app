@@ -10,14 +10,16 @@ Run the application with one of the commands below.
 | `-h`, `--help`      | Show help and exit          |
 | `-v`, `--version`   | Show app version and exit   |
 
-> Note: the legacy `-c` / `-console` argument is **not** used by the current CLI. Use subcommands (`scan`, `settings`) instead.
+> Note: the legacy `-c` / `-console` argument is **not** used by the current CLI. Use subcommands (`scan`, `mask`, `unmask`, `settings`) instead.
 
 ### Commands
 
 - `scan`: run a scan and generate a report
+- `mask`: create a masked XLSX file and a reversible mapping JSON file
+- `unmask`: restore a masked XLSX file using a mapping JSON file
 - `settings`: view/modify settings, manage user signatures, import/export settings
 
-## `scan` — run a scan and generate a report
+## `scan` - run a scan and generate a report
 
 ### Options
 
@@ -53,6 +55,36 @@ Run the application with one of the commands below.
    ```
    AngryDataScanner scan -p /path/to/paths.txt --list
    ```
+
+
+## `mask` and `unmask` - reversible XLSX masking
+
+`mask` scans an `.xlsx` file with the configured matchers, replaces maskable personal data with stable tokens, and writes a mapping JSON file. Keep the mapping file private: it contains the original values required for restoration.
+
+### `mask` options
+
+| Option | Short | Parameter | Description |
+|--------|-------|-----------|-------------|
+| `--input` | `-i` | `file.xlsx` | Source XLSX file. **Required**. |
+| `--out` | `-o` | `file.xlsx` | Masked XLSX output path. **Required**. |
+| `--map` | - | `mapping.json` | Mapping JSON output path. **Required**. |
+| `--matchers` | `-m` | `m1,m2,...` | Matchers to use. Default: loaded from settings. |
+| `--user-signatures` | `-us` | `s1,s2,...` | Existing user signatures to use. Default: loaded from settings. |
+
+### `unmask` options
+
+| Option | Short | Parameter | Description |
+|--------|-------|-----------|-------------|
+| `--input` | `-i` | `file.xlsx` | Masked XLSX file. **Required**. |
+| `--out` | `-o` | `file.xlsx` | Restored XLSX output path. **Required**. |
+| `--map` | - | `mapping.json` | Mapping JSON created by `mask`. **Required**. |
+
+### Examples
+
+```bash
+AngryDataScanner mask -i ./source.xlsx -o ./masked.xlsx --map ./mapping.json
+AngryDataScanner unmask -i ./masked.xlsx -o ./restored.xlsx --map ./mapping.json
+```
 
 ## `settings` — view/modify settings
 

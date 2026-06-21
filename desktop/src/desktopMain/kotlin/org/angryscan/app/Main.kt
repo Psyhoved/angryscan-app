@@ -50,6 +50,8 @@ suspend fun main(args: Array<String>) {
     val isCliMode = args.isNotEmpty() &&
             arrayOf(
                 "scan",
+                "mask",
+                "unmask",
                 "settings",
                 "-h", "--help",
                 "-v", "--version"

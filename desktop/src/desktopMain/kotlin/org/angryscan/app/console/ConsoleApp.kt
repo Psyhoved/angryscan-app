@@ -5,8 +5,10 @@ import com.github.ajalt.clikt.core.installMordantMarkdown
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.options.versionOption
 import org.angryscan.app.common.AppVersion
+import org.angryscan.app.console.commands.Mask
 import org.angryscan.app.console.commands.Scan
 import org.angryscan.app.console.commands.Settings
+import org.angryscan.app.console.commands.Unmask
 
 class ConsoleApp: SuspendingCliktCommand() {
     override suspend fun run() {
@@ -25,6 +27,8 @@ class ConsoleApp: SuspendingCliktCommand() {
 
         subcommands(
             Scan(),
+            Mask(),
+            Unmask(),
             Settings()
         )
     }
