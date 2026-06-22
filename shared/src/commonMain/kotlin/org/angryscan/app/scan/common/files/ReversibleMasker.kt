@@ -64,7 +64,7 @@ object ReversibleMasker {
     ): ReversibleMaskResult {
         val locations = engines
             .flatMap { engine -> XLSXType.findLocation(inputFile, engine) }
-            .filter { it.isMaskable }
+            .filter { it.attachmentName == null }
             .map { it as XLSLocation }
 
         val entries = mutableListOf<ReversibleMappingEntry>()
@@ -172,7 +172,7 @@ object ReversibleMasker {
             CellType.NUMERIC -> cell.numericCellValue.toString()
             CellType.BOOLEAN -> cell.booleanCellValue.toString()
             CellType.FORMULA -> cell.cellFormula
-            else -> cell.rawValue ?: ""
+            else -> cell.toString()
         }
     }
 

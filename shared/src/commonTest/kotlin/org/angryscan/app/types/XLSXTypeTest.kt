@@ -60,6 +60,7 @@ class XLSXTypeTest : IKoinTestRule {
             }
 
             assertEquals(true, result.maskedCount > 0)
+            assertEquals(true, result.mappingEntries > 1)
             assertEquals(true, mappingFile.readText().contains("ADS_"))
 
             runBlocking {
