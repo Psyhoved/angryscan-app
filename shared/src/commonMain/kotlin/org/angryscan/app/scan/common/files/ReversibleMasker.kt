@@ -85,7 +85,7 @@ object ReversibleMasker {
                                 val replaced = originalCellValue.replaceFirst(location.entry.value, token)
 
                                 if (replaced != originalCellValue) {
-                                    cell.setCellValue(replaced)
+                                    setCellStringValue(cell, replaced)
                                     entries.add(
                                         ReversibleMappingEntry(
                                             token = token,
@@ -146,7 +146,7 @@ object ReversibleMasker {
                                 val restored = currentValue.replace(entry.token, entry.original)
 
                                 if (restored != currentValue) {
-                                    cell.setCellValue(restored)
+                                    setCellStringValue(cell, restored)
                                     restoredCount++
                                 }
                             }
@@ -164,6 +164,13 @@ object ReversibleMasker {
             maskedCount = restoredCount,
             mappingEntries = mapping.entries.size
         )
+    }
+
+    private fun setCellStringValue(cell: org.apache.poi.ss.usermodel.Cell, value: String) {
+        val style = cell.cellStyle
+        cell.setBlank()
+        cell.cellStyle = style
+        cell.setCellValue(value)
     }
 
     private fun cellValueAsString(cell: org.apache.poi.ss.usermodel.Cell): String {
